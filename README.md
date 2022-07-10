@@ -1,6 +1,6 @@
 # 암호화폐 심볼 이미지 크롤러
 
-[코인랭킹 사이트](https://coinranking.com/)
+[코인랭킹 사이트](https://coinranking.com/) (https://coinranking.com/)
 
 ![image](https://user-images.githubusercontent.com/74912530/178154317-16ce6d97-b518-42ee-814d-144acb1bb5cb.png)
 
