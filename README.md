@@ -76,13 +76,8 @@ const crawler = async (url) => {
 
 ## 📁 크롤링 후 이미지 다운
 ```
-const start = async () => {
-  // 코인정보 크롤링
-  for (let i = 0; i < 1; i++) {
-    await crawler(coinrankingUrl + i);
-  }
-
-  // 이미지 다운로더
+// 이미지 다운로더
+const downloadImg = async () => {
   for (let i = 0; i < coinList.length; i++) {
     const { coinName, coinCode, src } = coinList[i];
     const imgResult = await axios.get(src, {
@@ -108,6 +103,15 @@ const start = async () => {
       console.log(coinCode + " 누락");
     }
   }
+};
+
+const start = async () => {
+  // 코인정보 크롤링
+  for (let i = 0; i < 1; i++) {
+    await crawler(coinrankingUrl + i);
+  }
+
+  downloadImg();
 };
 ```
 
