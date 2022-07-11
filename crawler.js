@@ -61,20 +61,42 @@ const crawler = async (url) => {
   });
 };
 
+// 이미지 다운로더
+const downloadImg = async () => {
+  for (let i = 0; i < coinList.length; i++) {
+    const { coinName, coinCode, src } = coinList[i];
+    const imgResult = await axios.get(src, {
+      responseType: "arraybuffer",
+    });
+
+    let fileExtension = "";
+
+    if (src.includes("svg")) {
+      fileExtension = "svg";
+    } else if (src.includes("png")) {
+      fileExtension = "png";
+    } else if (src.includes("jpg")) {
+      fileExtension = "jpg";
+    }
+
+    if (imgResult.data) {
+      fs.writeFileSync(
+        `coin/${coinList[i].coinCode}.${fileExtension}`,
+        imgResult.data
+      );
+    } else {
+      console.log(coinCode + " 누락");
+    }
+  }
+};
+
 const start = async () => {
   // 코인정보 크롤링
   for (let i = 0; i < 1; i++) {
     await crawler(coinrankingUrl + i);
   }
-  console.log(coinList);
 
-  // 이미지 다운로더
-  for (let i = 0; i < coinList.length; i++) {
-    const imgResult = await axios.get(coinList[i].src, {
-      responseType: "arraybuffer",
-    });
-    fs.writeFileSync(`coin/${coinList[i].coinCode}.png`, imgResult.data);
-  }
+  downloadImg();
 };
 
 start();
