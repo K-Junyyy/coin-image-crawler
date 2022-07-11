@@ -81,14 +81,32 @@ const start = async () => {
   for (let i = 0; i < 1; i++) {
     await crawler(coinrankingUrl + i);
   }
-  console.log(coinList);
 
   // 이미지 다운로더
   for (let i = 0; i < coinList.length; i++) {
-    const imgResult = await axios.get(coinList[i].src, {
+    const { coinName, coinCode, src } = coinList[i];
+    const imgResult = await axios.get(src, {
       responseType: "arraybuffer",
     });
-    fs.writeFileSync(`coin/${coinList[i].coinCode}.png`, imgResult.data);
+
+    let fileExtension = "";
+
+    if (src.includes("svg")) {
+      fileExtension = "svg";
+    } else if (src.includes("png")) {
+      fileExtension = "png";
+    } else if (src.includes("jpg")) {
+      fileExtension = "jpg";
+    }
+
+    if (imgResult.data) {
+      fs.writeFileSync(
+        `coin/${coinList[i].coinCode}.${fileExtension}`,
+        imgResult.data
+      );
+    } else {
+      console.log(coinCode + " 누락");
+    }
   }
 };
 ```
@@ -103,7 +121,8 @@ for문의 coinList.length 부분을 297로 바꿔주시면 모든 페이지의 �
 
 #### <크롤러 실행 후 1페이지의 코인들의 이미지를 폴더에 저장한 결과물>
 
-![image](https://user-images.githubusercontent.com/74912530/178154591-8ec9f428-b807-4fea-a017-bc635f155335.png)
+![image](https://user-images.githubusercontent.com/74912530/178174314-e6221969-365b-4dc8-83cf-0bf5a19646ce.png)
+
 
 
 
